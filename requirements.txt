@@ -1,0 +1,15 @@
+aiohttp==3.7.3
+aiohttp-session==2.9.0
+async-timeout==3.0.1
+attrs==20.3.0
+cffi==1.14.4
+chardet==3.0.4
+cryptography==3.3.1
+idna==3.0
+multidict==5.1.0
+pip==20.3.3
+pycparser==2.20
+setuptools==51.1.1
+six==1.15.0
+typing-extensions==3.7.4.3
+yarl==1.6.3
