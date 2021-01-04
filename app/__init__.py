@@ -8,6 +8,11 @@ from random import randint
 routes = web.RouteTableDef()
 
 
+@routes.get("/api/get_val_from_server")
+async def get_val_from_server(r: web.Request) -> web.Response:
+    return web.json_response({"val": randint(100, 999)})
+
+
 @routes.get("/")
 async def index(r: web.Request) -> web.Response:
     s = await get_session(r)
