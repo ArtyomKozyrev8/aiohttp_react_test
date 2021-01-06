@@ -10,6 +10,32 @@ import asyncio
 routes = web.RouteTableDef()
 
 
+@routes.get("/api/set_cookie_flag")
+async def set_cookie_flag(r: web.Request) -> web.Response:
+    s = await get_session(r)
+    flag = f"YES+{randint(100, 999)}"
+    s["flag"] = flag
+    return web.json_response({"res": flag})
+
+
+@routes.get("/api/get_cookie_flag")
+async def get_cookie_flag(r: web.Request) -> web.Response:
+    s = await get_session(r)
+    flag = s.get("flag", "Not Set")
+    return web.json_response({"res": flag})
+
+
+@routes.get("/api/remove_cookie_flag")
+async def remove_cookie_flag(r: web.Request) -> web.Response:
+    s = await get_session(r)
+    if "flag" in s.keys():
+        s.pop("flag")
+        res = "OK"
+    else:
+        res = "Not Set"
+    return web.json_response({"res": res})
+
+
 async def send_to_socket(ws: web.WebSocketResponse):
     """helper func which send messages to socket"""
     for i in range(30):
