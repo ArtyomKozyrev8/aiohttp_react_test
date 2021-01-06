@@ -1,11 +1,47 @@
 from aiohttp import web
+from aiohttp import WSMsgType
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp_session import setup, get_session
 
 from random import randint
+import asyncio
 
 
 routes = web.RouteTableDef()
+
+
+async def send_to_socket(ws: web.WebSocketResponse):
+    """helper func which send messages to socket"""
+    for i in range(30):
+        if ws.closed:
+            break
+        await ws.send_str("I am super socket server!!")
+        await asyncio.sleep(5)
+
+
+async def listen_to_socket(ws: web.WebSocketResponse):
+    """helper func which Listen messages to socket"""
+    async for msg in ws:
+        if msg.type == WSMsgType.TEXT:
+            if msg.data == 'close':
+                await ws.close()
+            else:
+                await ws.send_str(msg.data + '/answer')
+        elif msg.type == WSMsgType.ERROR:
+            print('ws connection closed with exception %s' % ws.exception())
+
+
+@routes.get("/api/socket", name="socket")  # should be GET !!!
+async def websocket_handler(req:  web.Request) -> web.WebSocketResponse:
+    """Socket aiohttp handler"""
+    ws = web.WebSocketResponse()
+    await ws.prepare(req)
+
+    t1 = asyncio.create_task(listen_to_socket(ws))
+    t2 = asyncio.create_task(send_to_socket(ws))
+    await t1, t2
+
+    return ws
 
 
 @routes.get("/api/get_val_from_server")
