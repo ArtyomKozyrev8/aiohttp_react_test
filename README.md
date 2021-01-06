@@ -17,7 +17,7 @@ gunicorn app:init_func_gunicorn --bind 0.0.0.0:8090 --worker-class aiohttp.Gunic
 
 **Run as independent app in Docker without Nginx:**
 
-docker run -d --name aio_serv2 -p 8090:8090 aio_serv2
+docker run -d --name aio_re_serv -p 8090:8090 aio_re_serv
 
 **Run with Nginx:** 
 
