@@ -27,6 +27,7 @@ RUN addgroup -S appgroup && adduser -S the_user -G appgroup
 RUN chown -R the_user:appgroup /usr/src/app
 RUN chmod 755 /usr/src/app
 
+RUN mkdir /usr/src/uploads
 RUN chown -R the_user:appgroup /usr/src/uploads
 RUN chmod 755 /usr/src/uploads
 
