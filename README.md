@@ -9,7 +9,7 @@ docker build -t aio_re_serv .
 
 **How to run as a standalone application on local PC without Docker:**
 
-python -m aiohttp.web -H localhost -P 8090 app:init_func
+python -m aiohttp.web -H 0.0.0.0 -P 8090 app:init_func
 
 **How to run with Gunicorn (not work in Windows)**
 
